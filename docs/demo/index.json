@@ -1,0 +1,38 @@
+{
+  "components": [
+    {
+      "id": "1",
+      "component": {
+        "name": "corespring-ordering-react",
+        "version": "1.0.0"
+      },
+      "correctResponse": [
+        "c2",
+        "c3",
+        "c1",
+        "c4"
+      ],
+      "model": {
+        "prompt": "Hello Ordering",
+        "choices": [
+          {
+            "id": "c1",
+            "label": "Apple"
+          },
+          {
+            "id": "c2",
+            "label": "Pear"
+          },
+          {
+            "id": "c3",
+            "label": "Orange"
+          },
+          {
+            "id": "c4",
+            "label": "Banana"
+          }
+        ]
+      }
+    }
+  ]
+}

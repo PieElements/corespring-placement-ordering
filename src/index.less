@@ -1,0 +1,160 @@
+
+
+.corespring-placement-ordering {
+  &.view {
+    .choice {
+      border: red;
+    }
+  }
+
+  .choice {
+    box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.18);
+    background: #fff;
+    border: 1px solid #f1f1f4;
+    text-align: center;
+    margin-bottom: 20px;
+    min-height: 55px;
+    width: 150px;
+
+    &.placeholder {
+      opacity: 0;
+    }
+    &.dragging {
+      opacity: 0.3;
+    }
+    &.correct {
+      border: 2px solid green;
+    }
+
+    &.incorrect {
+      border: 2px solid orange;
+    }
+  }
+
+  .target {
+    background: #f8f6f6;
+    box-shadow: inset 3px 4px 2px 0 rgba(0,0,0,0.08);
+    border: 1px solid #c2c2c2;
+    border-right-color: #e9e9e9;
+    border-bottom-color: #e9e9e9;
+    min-height: 55px;
+    min-width: 150px;
+    margin-bottom: 20px;
+    position: relative;
+
+    .choice {
+      margin-bottom: 0px;
+      //position: absolute;
+      //top: 0;
+      //left: 0;
+    }
+
+    &.over {
+      background-color: #ddd;
+    }
+  }
+
+  .choice-list {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    margin: 0;
+
+    & > * {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  }
+  .choices-container {
+    position: relative;
+
+    .place-holder-choices {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .choices-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+  .choice-holder-transition-enter {
+    opacity: 0.01;
+  }
+
+  .choice-holder-transition-enter.choice-holder-transition-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+
+  .choice-holder-transition-leave {
+    opacity: 1;
+  }
+
+  .choice-holder-transition-leave.choice-holder-transition-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
+
+}
+
+.corespring-correct-answer-toggle {
+  display: block;
+  height: 25px;
+  width: 200px;
+  position: relative;
+  cursor: pointer;
+  margin: 0 auto 0 auto;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                              not supported by any browser */
+
+  svg {
+    width: 25px;
+    float: left;
+  }
+
+  .corespring-correct-answer-toggle-label {
+    position: absolute;
+    left: 30px;
+    height: 25px;
+    line-height: 28px;
+    vertical-align: middle;
+    color: #1a9cff;
+    font-family: sans-serif;
+  }
+
+  .show-icon-background {
+    fill: white;
+  }
+
+  .hide-icon-background {
+    fill: #bce2ff;
+  }
+
+  .show-icon-border {
+    fill: #bce2ff;
+  }
+
+  .show-icon-foreground, .hide-icon-foreground {
+    fill: #1a9cff;
+  }
+
+  .root{
+    position: relative;
+  }
+
+  .svg-holder {
+    position: absolute;
+  }
+
+  .svg-holder > svg {
+    position: absolute;
+  }
+}

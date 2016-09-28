@@ -1,0 +1,42 @@
+{
+  "name": "corespring-placement-ordering-react",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --inline --hot",
+    "dist": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
+    "dist-watch": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js -d --watch"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2016": "^6.11.3",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "css-loader": "^0.25.0",
+    "jquery": "^3.1.0",
+    "json-loader": "^0.5.4",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
+  },
+  "dependencies": {
+    "babel-plugin-syntax-decorators": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0",
+    "corespring-show-correct-answer-toggle-react": "github:PieLabs/corespring-show-correct-answer-toggle-react",
+    "lodash": "^4.15.0",
+    "material-ui": "^0.15.4",
+    "react": "~15.0.1",
+    "react-addons-css-transition-group": "^15.3.2",
+    "react-dnd": "^2.1.4",
+    "react-dnd-html5-backend": "^2.1.2",
+    "react-dom": "^15.0.1",
+    "react-tap-event-plugin": "^1.0.0"
+  }
+}
