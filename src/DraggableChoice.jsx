@@ -6,8 +6,13 @@ const choiceSource = {
   beginDrag(props) {
     return {
       id: props.choiceId,
-      index: props.index
+      index: props.index,
+      componentId: props.componentId
     };
+  },
+
+  canDrag(props) {
+    return !props.disabled;
   },
 
   endDrag(props, monitor) {
@@ -27,9 +32,9 @@ function collect(connect, monitor) {
 class DraggableChoice extends Component {
   render() {
     const { connectDragSource, isDragging, text } = this.props;
-    let className = "choice " + (isDragging ? 'dragging' : '');
+    let className = "choice " + (isDragging ? 'dragging' : '') + (this.props.outcome || '');
     return connectDragSource(
-      <div className={className}><div>{text}</div></div>
+      <div className={className}><div className="content">{text}</div></div>
     );
   }
 }
@@ -37,9 +42,12 @@ class DraggableChoice extends Component {
 DraggableChoice.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   index: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
+  outcome: PropTypes.string,
   choiceId: PropTypes.string.isRequired,
+  componentId: PropTypes.string.isRequired,
   onDragInvalid: PropTypes.func
 };
 

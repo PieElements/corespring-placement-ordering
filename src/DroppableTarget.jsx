@@ -5,6 +5,12 @@ const choiceTarget = {
   drop(props, monitor, dropZone) {
     let draggedItem = monitor.getItem();
     props.onDropChoice(draggedItem.id, props.index);
+  },
+
+  canDrop(props, monitor) {
+    let draggedItem = monitor.getItem();
+    return draggedItem.componentId == props.componentId;
+
   }
 };
 
@@ -35,6 +41,7 @@ DroppableTarget.propTypes = {
   isOver: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   targetId: PropTypes.string.isRequired,
+  componentId: PropTypes.string.isRequired,
   onDropChoice: PropTypes.func
 };
 

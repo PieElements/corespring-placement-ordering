@@ -26,7 +26,7 @@ var model = {
 
 var session = {
   value: [
-    null, 'c1'
+    'c2', 'c1', 'c3'
   ]
 };
 
@@ -64,7 +64,7 @@ var modelWithOutcomesAndCorrectResponse = _.extend(_.cloneDeep(modelWithOutcomes
 
 render(
   <div>
-    {/*<Main model={modelWithOutcomesAndCorrectResponse} session={session} />*/}
+    <Main model={modelWithOutcomesAndCorrectResponse} session={session} />
     <Main model={model} session={session} />
   </div>
   , document.getElementById('app'));

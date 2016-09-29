@@ -3,7 +3,7 @@
     {
       "id": "1",
       "component": {
-        "name": "corespring-ordering-react",
+        "name": "corespring-placement-ordering-react",
         "version": "1.0.0"
       },
       "correctResponse": [
@@ -13,7 +13,7 @@
         "c4"
       ],
       "model": {
-        "prompt": "Hello Ordering",
+        "prompt": "Hello Placement Ordering",
         "choices": [
           {
             "id": "c1",

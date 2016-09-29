@@ -12,9 +12,10 @@ class CorespringPlacementOrdering extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      order: _.isEmpty(props.session.value) ? _.map(props.model.choices, 'id') : props.session.value,
+      order: _.isEmpty(props.session.value) ? [] : props.session.value,
       showingCorrect: false
     };
+    this.componentId = _.uniqueId();
   }
 
   toggleCorrect(val) {
@@ -29,12 +30,13 @@ class CorespringPlacementOrdering extends React.Component {
       }
     }
     this.setState({order: this.state.order});
+    this.props.session.value = this.state.order;
   }
 
   onDragInvalid(choiceId, index) {
-    console.log("Invalid",choiceId,index);
     this.state.order[index] = null;
     this.setState({order: this.state.order});
+    this.props.session.value = this.state.order;
   }
 
   render() {
@@ -48,6 +50,8 @@ class CorespringPlacementOrdering extends React.Component {
           key={idx}
           index={idx}
           choiceId={choice.id}
+          componentId={this.componentId}
+          disabled={this.props.model.disabled}
         ></DraggableChoice>;
       }
     );
@@ -55,15 +59,19 @@ class CorespringPlacementOrdering extends React.Component {
     const targets = this.props.model.choices.map(
       (val, idx) => {
         let targetClass = 'target ';
-        let choiceId = this.state.order[idx];
+        let choiceId = this.state.showingCorrect ? this.props.model.correctResponse[idx] : this.state.order[idx];
         let choice = _.find(this.props.model.choices, (c) => {
           return c.id === choiceId
         });
+        let outcome = this.state.showingCorrect ? {outcome: 'correct'} : (_.find(this.props.model.outcomes, (c) => { return c.id === choiceId }) || {});
         let maybeChoice = choice ? <DraggableChoice
+          disabled={this.props.model.disabled}
           text={choice.label}
           key={idx}
           index={idx}
           choiceId={choiceId}
+          outcome={outcome.outcome}
+          componentId={this.componentId}
           onDragInvalid={this.onDragInvalid.bind(this)}
         ></DraggableChoice> : <div className="choice placeholder" key={idx} />;
 
@@ -71,6 +79,7 @@ class CorespringPlacementOrdering extends React.Component {
           key={idx}
           index={idx}
           targetId={val.id}
+          componentId={this.componentId}
           onDropChoice={this.onDropChoice.bind(this)}
         >
           {maybeChoice}
@@ -78,18 +87,22 @@ class CorespringPlacementOrdering extends React.Component {
       }
     );
 
+
     const toggler = this.props.model.correctResponse ? <CorespringShowCorrectAnswerToggle initialValue={false} onToggle={this.toggleCorrect.bind(this)}/> : null;
-    const className = "corespring-placement-ordering " //+ this.props.model.env.mode;
-    let myAnswer = (className) => {
-      return <div className={className} key={1}>
-        <table>
+    const className = "corespring-placement-ordering " + _.get(this, 'props.model.env.mode');
+
+    let maybeChoices = this.props.model.correctResponse ? null : <td className="choice-column">
+      {choices}
+    </td>;
+
+    let answerTable = (className, key = 1) => {
+      return <div className={className} key={key}>
+        <table className="choices-and-targets-table">
           <tbody>
             <tr>
+              {maybeChoices}
               <td>
-                <ul>{choices}</ul>
-              </td>
-              <td>
-                <ul>{targets}</ul>
+                {targets}
               </td>
             </tr>
           </tbody>
@@ -97,17 +110,20 @@ class CorespringPlacementOrdering extends React.Component {
 
       </div>;
     };
-    const maybeMyAnswer = this.state.showingCorrect ? '' : myAnswer('choices-wrapper');
 
-    const correctAnswer = this.state.showingCorrect ? <div className="choices-wrapper" key={2}>
-        {choices}
-    </div> : '';
+    const maybeMyAnswer = this.state.showingCorrect ? '' : answerTable('choices-wrapper', 1);
+
+    const correctAnswer = this.state.showingCorrect ? answerTable('choices-wrapper', 2) : '';
 
     return (
       <div className={className}>
+
+        <div className="prompt">{this.props.model.prompt}</div>
+
         {toggler}
+
         <div className="choices-container">
-          {myAnswer('place-holder-choices')}
+          {answerTable('place-holder-choices')}
 
           <ReactCSSTransitionGroup
             transitionName="choice-holder-transition"
