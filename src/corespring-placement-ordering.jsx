@@ -41,39 +41,46 @@ class CorespringPlacementOrdering extends React.Component {
 
   render() {
 
+    let templateIf = (predicate) => {
+      return (template, otherTemplate) => {
+        return predicate ? template : otherTemplate;
+      };
+    };
+
     const choices = this.props.model.choices.map(
       (choice, idx) => {
         let isDroppedAlready = _.find(this.state.order, (t) => { return t === choice.id; });
         const placeholder = <div className="choice placeholder" key={idx} />;
-        return isDroppedAlready ? placeholder : <DraggableChoice
-          text={choice.label}
-          key={idx}
-          index={idx}
+
+        return templateIf(isDroppedAlready)(placeholder,
+          <DraggableChoice
+           text={choice.label}
+           key={idx}
+           index={idx}
           choiceId={choice.id}
           componentId={this.componentId}
           disabled={this.props.model.disabled}
-        ></DraggableChoice>;
+        ></DraggableChoice>);
       }
     );
 
     const targets = this.props.model.choices.map(
       (val, idx) => {
-        let targetClass = 'target ';
         let choiceId = this.state.showingCorrect ? this.props.model.correctResponse[idx] : this.state.order[idx];
         let choice = _.find(this.props.model.choices, (c) => {
           return c.id === choiceId
         });
         let outcome = this.state.showingCorrect ? {outcome: 'correct'} : (_.find(this.props.model.outcomes, (c) => { return c.id === choiceId }) || {});
-        let maybeChoice = choice ? <DraggableChoice
+        let maybeChoice = templateIf(choice)(<DraggableChoice
           disabled={this.props.model.disabled}
-          text={choice.label}
+          text={(choice || {}).label}
           key={idx}
           index={idx}
           choiceId={choiceId}
           outcome={outcome.outcome}
           componentId={this.componentId}
           onDragInvalid={this.onDragInvalid.bind(this)}
-        ></DraggableChoice> : <div className="choice placeholder" key={idx} />;
+        ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
 
         return <DroppableTarget
           key={idx}
@@ -88,14 +95,15 @@ class CorespringPlacementOrdering extends React.Component {
     );
 
 
-    const toggler = this.props.model.correctResponse ? <CorespringShowCorrectAnswerToggle initialValue={false} onToggle={this.toggleCorrect.bind(this)}/> : null;
+    const toggler = templateIf(this.props.model.correctResponse)(<CorespringShowCorrectAnswerToggle initialValue={false} onToggle={this.toggleCorrect.bind(this)}/>);
+
     const className = "corespring-placement-ordering " + _.get(this, 'props.model.env.mode');
 
-    let maybeChoices = this.props.model.correctResponse ? null : <td className="choice-column">
+    const maybeChoices = templateIf(!this.props.model.correctResponse)(<td className="choice-column">
       {choices}
-    </td>;
+    </td>);
 
-    let answerTable = (className, key = 1) => {
+    let answerTable = (className, key) => {
       return <div className={className} key={key}>
         <table className="choices-and-targets-table">
           <tbody>
@@ -111,9 +119,8 @@ class CorespringPlacementOrdering extends React.Component {
       </div>;
     };
 
-    const maybeMyAnswer = this.state.showingCorrect ? '' : answerTable('choices-wrapper', 1);
-
-    const correctAnswer = this.state.showingCorrect ? answerTable('choices-wrapper', 2) : '';
+    const myAnswer = templateIf(!this.state.showingCorrect)(answerTable('choices-wrapper', 1));
+    const correctAnswer = templateIf(this.state.showingCorrect)(answerTable('choices-wrapper', 2));
 
     return (
       <div className={className}>
@@ -130,7 +137,7 @@ class CorespringPlacementOrdering extends React.Component {
             transitionEnterTimeout={300}
             transitionLeaveTimeout={300}>
 
-            {maybeMyAnswer}
+            {myAnswer}
             {correctAnswer}
 
           </ReactCSSTransitionGroup>
