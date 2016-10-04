@@ -1,6 +1,3 @@
 {
-  "dependencies" : {
-    "corespring-placement-ordering-react" : "../.."
-  },
-  "resolutions" : {}
+  "corespring-placement-ordering-react" : "../.."
 }

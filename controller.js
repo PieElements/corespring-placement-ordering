@@ -1,7 +1,31 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-exports.model = function(question, session, env) {
 
+export function outcome(question, session, env) {
+
+  const allCorrect = _.isEqual(question.correctResponse, session.value);
+
+  const raw = allCorrect ? 1 : 0;
+  const min = 0;
+  const max = 1;
+  const scaled = (raw - min) / (max - min);
+
+  const id = question.id;
+  const score = {
+    scaled, raw, min, max
+  };
+  const completed = true;
+  const duration = "PT1M"; //one minute, see https://en.wikipedia.org/wiki/ISO_8601#Durations
+  const extensions = {};
+  const outcome = {
+    id, score, completed, duration, extensions
+  };
+
+  return Promise.resolve(outcome);
+
+}
+
+export function model(question, session, env) {
   console.debug('[state] question:', JSON.stringify(question, null, '  '));
   console.debug('[state] session:', JSON.stringify(session, null, '  '));
   console.debug('[state] env:', JSON.stringify(env, null, '  '));
@@ -42,5 +66,5 @@ exports.model = function(question, session, env) {
   }
 
   console.debug('[state] return: ' + JSON.stringify(base, null, '  '));
-  return base;
-};
+  return Promise.resolve(base);
+}

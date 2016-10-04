@@ -1,8 +1,8 @@
 {
-  "components": [
+  "pies": [
     {
       "id": "1",
-      "component": {
+      "pie": {
         "name": "corespring-placement-ordering-react",
         "version": "1.0.0"
       },
