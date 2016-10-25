@@ -28,7 +28,7 @@ var config = {
         loader: "babel",
         include: APP_DIR,
         query: {
-          presets: isProd ? [ 'es2016', 'react'] : [ 'es2015', 'react', 'react-hmre' ],
+          presets: ['react', 'react-hmre' ],
           plugins: ["syntax-decorators"]
         }
       },
