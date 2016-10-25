@@ -4,7 +4,8 @@
       "id": "1",
       "pie": {
         "name": "corespring-placement-ordering-react",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "langs": ["en-US"]
       },
       "correctResponse": [
         "c2",
