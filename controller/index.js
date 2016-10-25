@@ -30,11 +30,28 @@ export function model(question, session, env) {
   console.debug('[state] session:', JSON.stringify(session, null, '  '));
   console.debug('[state] env:', JSON.stringify(env, null, '  '));
 
-  var lookup = _.identity;
+  function lookup(value) {
+    var localeKey = env.locale || (question.translations || {}).default_locale || 'en_US';
+    var map = ((question.translations || {})[localeKey] || {});
+    if (value.indexOf('$') === 0) {
+      var key = value.substring(1);
+      var out = map[key];
+      if (!out) {
+        console.warn('not able to find translation for: ' + key);
+      }
+      return out || value;
+    } else {
+      return value;
+    }
+  }
 
-  var base = _.assign({}, question.model);
+  var base = _.assign({}, _.cloneDeep(question.model));
   base.prompt = lookup(base.prompt);
   base.outcomes = [];
+  base.choices = _.map(base.choices, (c) => {
+    c.label = lookup(c.label);
+    return c;
+  });
 
   if (env.mode !== 'gather') {
     base.disabled = true;
