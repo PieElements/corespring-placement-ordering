@@ -28,7 +28,7 @@
   "dependencies": {
     "babel-plugin-syntax-decorators": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
-    "corespring-show-correct-answer-toggle-react": "github:PieLabs/corespring-show-correct-answer-toggle-react",
+    "corespring-show-correct-answer-toggle-react": "github:PieLabs/corespring-show-correct-answer-toggle-react#develop",
     "less": "^2.7.1",
     "lodash": "^4.15.0",
     "material-ui": "^0.15.4",
