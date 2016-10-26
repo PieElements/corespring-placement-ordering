@@ -95,7 +95,7 @@ class CorespringPlacementOrdering extends React.Component {
     );
 
 
-    const toggler = templateIf(this.props.model.correctResponse)(<CorespringShowCorrectAnswerToggle initialValue={false} onToggle={this.toggleCorrect.bind(this)}/>);
+    const toggler = templateIf(this.props.model.correctResponse)(<CorespringShowCorrectAnswerToggle initialValue={this.state.showingCorrect} onToggle={this.toggleCorrect.bind(this)}/>);
 
     const className = "corespring-placement-ordering " + (_.get(this, 'props.model.className') || '');
 
