@@ -3,21 +3,17 @@ import ReactDOM from 'react-dom';
 import Main from './main.jsx';
 
 export default class CorespringOrdering extends HTMLElement {
-  constructor() {
-    super();
-  }
 
   render() {
-    if (this._model) {
-      this.innerHTML = '';
+    if (this._model && this._session) {
       var element = React.createElement(Main, {
         model: this._model,
         session: this._session
       });
-      ReactDOM.render(element, this, function () {
-      });
+      ReactDOM.render(element, this);
     }
   }
+  
   set model(newModel) {
     this._model = newModel;
     this.render();
