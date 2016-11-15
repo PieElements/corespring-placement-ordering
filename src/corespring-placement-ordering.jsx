@@ -7,7 +7,7 @@ import DroppableTarget from './DroppableTarget.jsx'
 import { DragDropContext as ddContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-class CorespringPlacementOrdering extends React.Component {
+export class CorespringPlacementOrdering extends React.Component {
 
   constructor(props) {
     super(props);

@@ -8,48 +8,44 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 describe('CorespringPlacementOrdering', () => {
 
   let wrapper;
+  let toggle;
   let sheet;
   let model, session;
   let CorespringPlacementOrdering;
   let CorespringShowCorrectAnswerToggle;
 
   let mkWrapper = (initialValue, msgs) => {
-
-    return shallow(<CorespringPlacementOrdering
-      model={model}
-      session={session}
-      sheet={sheet}/>, {
-      context: {muiTheme: {palette: {}}}
-    });
+    //Note: I removed muiTheme - I can't see it in use in the component
+    return shallow(<CorespringPlacementOrdering model={model} session={session} />, { });
   };
 
   beforeEach(() => {
-    sheet = {
-      classes: {
-        root: 'root',
-        label: 'label'
-      }
-    };
 
-    // CorespringShowCorrectAnswerToggle = proxyquire('corespring-show-correct-answer-toggle-react', {
-    //   "!style!css!less!./index.less": {
-    //     '@noCallThru': true
-    //   }
-    // }).CorespringShowCorrectAnswerToggle;
+    let toggle = (props) => {
+      return <div>mocked-toggle</div>;
+    }
+
+    toggle['@noCallThru'] = true;
 
     CorespringPlacementOrdering = proxyquire('../src/corespring-placement-ordering', {
-      'corespring-show-correct-answer-toggle-react': (props) => { type: 'div' }
-    }).CorespringPlacementOrdering;
+      'corespring-show-correct-answer-toggle-react': toggle 
+    }).CorespringPlacementOrdering
+
+    model = {
+      choices: []
+    }
 
     wrapper = mkWrapper();
   });
 
   describe('render', () => {
 
-    it('has an svg-holder', () => {
-      let holder = wrapper.find('.svg-holder');
-      console.log(holder);
+    it('has an corespring-placement-ordering class', () => {
+      console.log(wrapper.debug());
+      let holder = wrapper.find('.corespring-placement-ordering');
       expect(holder).to.have.length(1);
+      //or: 
+      expect(wrapper.hasClass('corespring-placement-ordering')).to.eql(true);
     });
 
   });
