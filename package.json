@@ -7,7 +7,7 @@
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --inline --hot",
     "dist": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
     "dist-watch": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js -d --watch",
-    "test": "./node_modules/.bin/mocha --require test/setup.js --compilers js:babel-core/register  test/**"
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register  test/**"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
