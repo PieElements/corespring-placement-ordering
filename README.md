@@ -1,4 +1,4 @@
-# corespring-placement-ordering-react
+# corespring-placement-ordering
 
 A [pie](http://github.com/PieLabs/pie) choice component.
 
