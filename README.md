@@ -1,1 +1,1 @@
-# corespring-placement-ordering-react
+# corespring-placement-ordering
