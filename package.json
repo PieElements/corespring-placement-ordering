@@ -4,10 +4,9 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --inline --hot",
-    "dist": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
-    "dist-watch": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js -d --watch",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register  test/**"
+    "client-test": "./node_modules/.bin/mocha  --require test/setup test/**/*-test.js",
+    "controller-test": "./node_modules/.bin/mocha  --require test/setup controller/test/**/*-test.js",
+    "test": "npm run client-test && npm run controller-test"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
