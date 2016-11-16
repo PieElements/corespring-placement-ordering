@@ -1,9 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import CorespringShowCorrectAnswerToggle from 'corespring-show-correct-answer-toggle-react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import DraggableChoice from './DraggableChoice.jsx'
-import DroppableTarget from './DroppableTarget.jsx'
+import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import DraggableChoice from './DraggableChoice.jsx';
+import DroppableTarget from './DroppableTarget.jsx';
 import { DragDropContext as ddContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -19,23 +19,23 @@ export class CorespringPlacementOrdering extends React.Component {
   }
 
   toggleCorrect(val) {
-    this.setState({showingCorrect: val});
+    this.setState({ showingCorrect: val });
   }
 
-  onDropChoice(choiceId,index) {
+  onDropChoice(choiceId, index) {
     this.state.order[index] = choiceId;
     for (var i = 0; i < this.state.order.length; i++) {
       if (i !== index && this.state.order[i] === choiceId) {
         this.state.order[i] = null;
       }
     }
-    this.setState({order: this.state.order});
+    this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
   }
 
   onDragInvalid(choiceId, index) {
     this.state.order[index] = null;
-    this.setState({order: this.state.order});
+    this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
   }
 
@@ -54,13 +54,13 @@ export class CorespringPlacementOrdering extends React.Component {
 
         return templateIf(isDroppedAlready)(placeholder,
           <DraggableChoice
-           text={choice.label}
-           key={idx}
-           index={idx}
-          choiceId={choice.id}
-          componentId={this.componentId}
-          disabled={this.props.model.disabled}
-        ></DraggableChoice>);
+            text={choice.label}
+            key={idx}
+            index={idx}
+            choiceId={choice.id}
+            componentId={this.componentId}
+            disabled={this.props.model.disabled}
+            ></DraggableChoice>);
       }
     );
 
@@ -70,7 +70,7 @@ export class CorespringPlacementOrdering extends React.Component {
         let choice = _.find(this.props.model.choices, (c) => {
           return c.id === choiceId
         });
-        let outcome = this.state.showingCorrect ? {outcome: 'correct'} : (_.find(this.props.model.outcomes, (c) => { return c.id === choiceId }) || {});
+        let outcome = this.state.showingCorrect ? { outcome: 'correct' } : (_.find(this.props.model.outcomes, (c) => { return c.id === choiceId }) || {});
         let maybeChoice = templateIf(choice)(<DraggableChoice
           disabled={this.props.model.disabled}
           text={(choice || {}).label}
@@ -80,7 +80,7 @@ export class CorespringPlacementOrdering extends React.Component {
           outcome={outcome.outcome}
           componentId={this.componentId}
           onDragInvalid={this.onDragInvalid.bind(this)}
-        ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
+          ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
 
         return <DroppableTarget
           key={idx}
@@ -88,14 +88,14 @@ export class CorespringPlacementOrdering extends React.Component {
           targetId={val.id}
           componentId={this.componentId}
           onDropChoice={this.onDropChoice.bind(this)}
-        >
+          >
           {maybeChoice}
         </DroppableTarget>;
       }
     );
 
 
-    const toggler = templateIf(this.props.model.correctResponse)(<CorespringShowCorrectAnswerToggle initialValue={this.state.showingCorrect} onToggle={this.toggleCorrect.bind(this)}/>);
+    const toggler = templateIf(this.props.model.correctResponse)(<CorespringCorrectAnswerToggle initialValue={this.state.showingCorrect} onToggle={this.toggleCorrect.bind(this)} />);
 
     const className = "corespring-placement-ordering " + (_.get(this, 'props.model.className') || '');
 

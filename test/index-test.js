@@ -24,7 +24,7 @@ describe('CorespringPlacementOrdering', () => {
     mockToggle['@noCallThru'] = true;
 
     CorespringPlacementOrdering = proxyquire('../src/corespring-placement-ordering', {
-      'corespring-show-correct-answer-toggle-react': mockToggle
+      'corespring-correct-answer-toggle': mockToggle
     }).CorespringPlacementOrdering
 
     model = {
