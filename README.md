@@ -42,3 +42,11 @@ npm test # run client and controller tests
 npm run client-test # run client tests
 npm run controller-test # run controller tests
 ```
+
+## Release 
+
+```shell
+gulp release
+git checkout master
+npm publish
+```
