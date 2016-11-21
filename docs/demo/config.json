@@ -3,7 +3,7 @@
     {
       "id": "1",
       "pie": {
-        "name": "corespring-placement-ordering-react",
+        "name": "corespring-placement-ordering",
         "version": "1.0.0",
         "langs": ["en-US","es-ES"]
       },
