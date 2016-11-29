@@ -1,5 +1,5 @@
 {
-  "name": "corespring-placement-ordering-react-controller",
+  "name": "corespring-placement-ordering-controller",
   "version": "1.0.0",
   "private": true,
   "main": "./src/index.js",
