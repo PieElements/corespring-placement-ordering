@@ -122,12 +122,17 @@ export class CorespringPlacementOrdering extends React.Component {
     const myAnswer = templateIf(!this.state.showingCorrect)(answerTable('choices-wrapper', 1));
     const correctAnswer = templateIf(this.state.showingCorrect)(answerTable('choices-wrapper', 2));
 
+    const showToggle = this.props.model.correctResponse && this.props.model.correctResponse.length > 0;
+
     return (
       <div className={className}>
 
         <div className="prompt">{this.props.model.prompt}</div>
 
-        {toggler}
+        <CorespringCorrectAnswerToggle
+          show={showToggle}
+          initialValue={this.state.showingCorrect}
+          onToggle={this.toggleCorrect.bind(this)} />
 
         <div className="choices-container">
           {answerTable('place-holder-choices')}
