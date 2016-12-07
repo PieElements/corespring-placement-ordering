@@ -8,7 +8,7 @@ export function outcome(question, session, env) {
     if (!question || !question.correctResponse || _.isEmpty(question.correctResponse)) {
       reject(new Error('Question is missing required array: correctResponse'));
     } else {
-      const allCorrect = _.isEqual(session.value.sort(), question.correctResponse.sort());
+      const allCorrect = _.isEqual(_.cloneDeep(session.value).sort(), _.cloneDeep(question.correctResponse).sort());
       resolve({
         score: {
           scaled: allCorrect ? 1 : 0

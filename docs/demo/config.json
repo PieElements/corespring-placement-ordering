@@ -1,33 +1,36 @@
 {
-  "pies": [
+  "elements": {
+    "corespring-placement-ordering": "../../"
+  },
+  "langs": [
+    "en-US",
+    "es-ES"
+  ],
+  "models": [
     {
       "id": "1",
-      "pie": {
-        "name": "corespring-placement-ordering",
-        "version": "1.0.0",
-        "langs": ["en-US","es-ES"]
-      },
+      "element": "corespring-placement-ordering",
       "correctResponse": [
         "c1",
         "c4",
         "c3",
         "c2"
       ],
-      "translations" : {
-        "default_locale" : "en-US",
-        "en-US" : {
-          "PROMPT" : "Arrange the fruits alphabetically",
-          "LABEL_BLUEBERRY" : "Blueberry",
-          "LABEL_LEMON" : "Lemon",
-          "LABEL_MELON" : "Melon",
-          "LABEL_PEAR" : "Pear"
+      "translations": {
+        "default_locale": "en-US",
+        "en-US": {
+          "PROMPT": "Arrange the fruits alphabetically",
+          "LABEL_BLUEBERRY": "Blueberry",
+          "LABEL_LEMON": "Lemon",
+          "LABEL_MELON": "Melon",
+          "LABEL_PEAR": "Pear"
         },
-        "es-ES" : {
-          "PROMPT" : "Organizar los frutos alfabético",
-          "LABEL_BLUEBERRY" : "Arándano",
-          "LABEL_LEMON" : "Limón",
-          "LABEL_MELON" : "Melón",
-          "LABEL_PEAR" : "Pera"
+        "es-ES": {
+          "PROMPT": "Organizar los frutos alfabético",
+          "LABEL_BLUEBERRY": "Arándano",
+          "LABEL_LEMON": "Limón",
+          "LABEL_MELON": "Melón",
+          "LABEL_PEAR": "Pera"
         }
       },
       "model": {
@@ -40,7 +43,6 @@
           {
             "id": "c3",
             "label": "$LABEL_MELON"
-
           },
           {
             "id": "c1",
