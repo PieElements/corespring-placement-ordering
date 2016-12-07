@@ -1,5 +1,4 @@
 import React from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -43,7 +42,7 @@ class Main extends React.Component {
         <CorespringPlacementOrdering
           model={this.props.model}
           session={this.props.session}
-        >
+          >
         </CorespringPlacementOrdering>
       </MuiThemeProvider>
     </div>
