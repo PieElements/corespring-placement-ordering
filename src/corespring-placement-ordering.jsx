@@ -18,6 +18,12 @@ export class CorespringPlacementOrdering extends React.Component {
     this.componentId = _.uniqueId();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.model.correctResponse) {
+      this.setState({ showingCorrect: false });
+    }
+  }
+
   toggleCorrect(val) {
     this.setState({ showingCorrect: val });
   }
@@ -94,9 +100,6 @@ export class CorespringPlacementOrdering extends React.Component {
       }
     );
 
-
-    const toggler = templateIf(this.props.model.correctResponse)(<CorespringCorrectAnswerToggle initialValue={this.state.showingCorrect} onToggle={this.toggleCorrect.bind(this)} />);
-
     const className = "corespring-placement-ordering " + (_.get(this, 'props.model.className') || '');
 
     const maybeChoices = templateIf(!this.props.model.correctResponse)(<td className="choice-column">
@@ -121,7 +124,6 @@ export class CorespringPlacementOrdering extends React.Component {
 
     const myAnswer = templateIf(!this.state.showingCorrect)(answerTable('choices-wrapper', 1));
     const correctAnswer = templateIf(this.state.showingCorrect)(answerTable('choices-wrapper', 2));
-
     const showToggle = this.props.model.correctResponse && this.props.model.correctResponse.length > 0;
 
     return (
@@ -130,7 +132,7 @@ export class CorespringPlacementOrdering extends React.Component {
         <div className="prompt">{this.props.model.prompt}</div>
         <CorespringCorrectAnswerToggle
           show={showToggle}
-          initialValue={this.state.showingCorrect}
+          toggled={this.state.showingCorrect}
           onToggle={this.toggleCorrect.bind(this)} />
 
         <div className="choices-container">
