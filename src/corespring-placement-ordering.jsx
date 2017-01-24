@@ -60,11 +60,11 @@ export class CorespringPlacementOrdering extends React.Component {
             choiceId={choice.id}
             componentId={this.componentId}
             disabled={this.props.model.disabled}
-            ></DraggableChoice>);
+          ></DraggableChoice>);
       }
     );
 
-    const targets = this.props.model.choices.map(
+    const targets = (this.props.model.choices || []).map(
       (val, idx) => {
         let choiceId = this.state.showingCorrect ? this.props.model.correctResponse[idx] : this.state.order[idx];
         let choice = _.find(this.props.model.choices, (c) => {
@@ -80,7 +80,7 @@ export class CorespringPlacementOrdering extends React.Component {
           outcome={outcome.outcome}
           componentId={this.componentId}
           onDragInvalid={this.onDragInvalid.bind(this)}
-          ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
+        ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
 
         return <DroppableTarget
           key={idx}
@@ -88,7 +88,7 @@ export class CorespringPlacementOrdering extends React.Component {
           targetId={val.id}
           componentId={this.componentId}
           onDropChoice={this.onDropChoice.bind(this)}
-          >
+        >
           {maybeChoice}
         </DroppableTarget>;
       }
@@ -128,7 +128,6 @@ export class CorespringPlacementOrdering extends React.Component {
       <div className={className}>
 
         <div className="prompt">{this.props.model.prompt}</div>
-
         <CorespringCorrectAnswerToggle
           show={showToggle}
           initialValue={this.state.showingCorrect}
