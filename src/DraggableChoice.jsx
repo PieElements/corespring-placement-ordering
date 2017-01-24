@@ -34,7 +34,7 @@ class DraggableChoice extends Component {
     const { connectDragSource, isDragging, text } = this.props;
     let className = "choice " + (isDragging ? 'dragging' : '') + (this.props.outcome || '');
     return connectDragSource(
-      <div className={className}><div className="content">{text}</div></div>
+      <div className={className} disabled={this.props.disabled}><div className="content">{text}</div></div>
     );
   }
 }
