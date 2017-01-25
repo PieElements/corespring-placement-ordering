@@ -1,6 +1,6 @@
 {
   "name": "corespring-placement-ordering",
-  "version": "1.5.0",
+  "version": "1.5.1-prerelease",
   "main": "src/index.js",
   "description": "A pie placement component",
   "keywords": [
@@ -48,7 +48,7 @@
     "react-tap-event-plugin": "^2.0.1"
   },
   "dependencies": {
-    "corespring-correct-answer-toggle": "^2.0.0",
+    "corespring-correct-answer-toggle": "^3.0.0",
     "less": "^2.7.1",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.4",

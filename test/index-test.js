@@ -1,7 +1,7 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -12,7 +12,7 @@ describe('CorespringPlacementOrdering', () => {
   let CorespringPlacementOrdering;
 
   let mkWrapper = (model, session) => {
-    return shallow(<CorespringPlacementOrdering model={model} session={session}/>, {});
+    return shallow(<CorespringPlacementOrdering model={model} session={session} />, {});
   };
 
   beforeEach(() => {
@@ -78,7 +78,7 @@ describe('CorespringPlacementOrdering', () => {
     });
 
     it('removing choices updates state', () => {
-      session = {value: ['c4', 'c2', 'c3', 'c1']};
+      session = { value: ['c4', 'c2', 'c3', 'c1'] };
       wrapper = mkWrapper(model, session);
       wrapper.instance().onDragInvalid('c4', 0);
       expect(wrapper.state('order')).to.eql([null, 'c2', 'c3', 'c1']);
@@ -87,7 +87,7 @@ describe('CorespringPlacementOrdering', () => {
 
   describe('session', () => {
     it('order get restored from session if present', () => {
-      session = {value: ['c4', 'c2', 'c3', 'c1']};
+      session = { value: ['c4', 'c2', 'c3', 'c1'] };
       wrapper = mkWrapper(model, session);
       let choices = wrapper.find('DragSource(DraggableChoice)');
       expect(choices.map((c) => {
@@ -98,21 +98,22 @@ describe('CorespringPlacementOrdering', () => {
 
   describe('show correct response', () => {
     it('toggle is visible only if correct response is present', () => {
-      session = {value: ['c4', 'c2', 'c3', 'c1']};
+      session = { value: ['c4', 'c2', 'c3', 'c1'] };
       wrapper = mkWrapper(model, session);
-      let toggler = wrapper.find('mockToggle');
-      expect(toggler.length).to.eql(0);
+      let toggler = () => wrapper.find('mockToggle');
+      expect(toggler().prop('show')).not.to.be.true;
+      expect(toggler().prop('toggled')).to.be.false;
+      model.correctResponse = ['c1', 'c4', 'c3', 'c2'];
+      wrapper.setProps({ model: model });
+      expect(toggler().prop('show')).to.be.true;
+      expect(toggler().prop('toggled')).to.be.false;
 
-      model.correctResponse = ["c1", "c4", "c3", "c2"];
-      wrapper = mkWrapper(model, session);
-      toggler = wrapper.find('mockToggle');
-      expect(toggler.length).to.eql(1);
     });
   });
 
   describe('outcomes', () => {
     it('choices are styled according to their outcome', () => {
-      session = {value: ['c4', 'c2', 'c3', 'c1']};
+      session = { value: ['c4', 'c2', 'c3', 'c1'] };
       model.correctResponse = ["c1", "c2", "c3", "c4"];
       model.outcomes = [
         {

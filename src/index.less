@@ -11,13 +11,25 @@
 
   background-color: black;
 
-  .prompt{
+  .correct-answer-toggle .label {
     color: white;
   }
 
+  .prompt{
+    color: white;
+  }
+  .target{
+    background: black;
+    color: white;
+  }
   .choice {
     color: white;
-     background: #444444;
+    background: #444444;
+
+    &[disabled]{
+      color: rgba(255,255,255, 0.7);
+      background: rgba(255,255,255, 0.3);
+    }
   }
 }
 
@@ -28,12 +40,7 @@
   * {
     font-family: 'Roboto', sans-serif;
   }
-
-  &.view {
-    .choice {
-      border-color: #333;
-    }
-  }
+  
 
   .prompt {
     padding: 5px;
@@ -48,6 +55,7 @@
     min-height: 55px;
     width: (@choice-width);
     position: relative;
+    transition: background 100ms linear;
 
     &.placeholder {
       opacity: 0;
@@ -55,9 +63,19 @@
     &.dragging {
       opacity: 0.5;
     }
+  
+  
+    &[disabled]{
+      cursor: not-allowed;
+      color: rgba(0,0,0,0.6);
+      border: solid 1px rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.1);
+    }
+    
     &.correct {
       border: 2px solid green;
     }
+    
     &.incorrect {
       border: 2px solid orange;
     }
@@ -69,6 +87,7 @@
       transform: translateX(-50%) translateY(-50%);
     }
   }
+  
 
   .target {
     background: #f8f6f6;

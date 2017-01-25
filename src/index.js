@@ -6,7 +6,6 @@ export default class CorespringOrdering extends HTMLElement {
 
   render() {
     if (this._model && this._session) {
-      this.innerHTML = '';
       var element = React.createElement(Main, {
         model: this._model,
         session: this._session
