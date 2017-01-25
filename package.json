@@ -1,6 +1,6 @@
 {
   "name": "corespring-placement-ordering",
-  "version": "1.5.1-prerelease",
+  "version": "1.5.1",
   "main": "src/index.js",
   "description": "A pie placement component",
   "keywords": [
