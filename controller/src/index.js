@@ -20,9 +20,9 @@ export function outcome(question, session, env) {
 }
 
 export function model(question, session, env) {
-  console.debug('[state] question:', JSON.stringify(question, null, '  '));
-  console.debug('[state] session:', JSON.stringify(session, null, '  '));
-  console.debug('[state] env:', JSON.stringify(env, null, '  '));
+  console.log('[state] question:', JSON.stringify(question, null, '  '));
+  console.log('[state] session:', JSON.stringify(session, null, '  '));
+  console.log('[state] env:', JSON.stringify(env, null, '  '));
 
   function lookup(value) {
     var localeKey = env.locale || (question.translations || {}).default_locale || 'en_US';
@@ -76,6 +76,6 @@ export function model(question, session, env) {
     base.className = map[env.accessibility.colorContrast];
   }
 
-  console.debug('[state] return: ' + JSON.stringify(base, null, '  '));
+  console.log('[state] return: ' + JSON.stringify(base, null, '  '));
   return Promise.resolve(base);
 }
