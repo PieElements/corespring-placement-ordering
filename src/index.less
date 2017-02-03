@@ -1,13 +1,13 @@
 @choice-width: 150px;
 
-.corespring-placement-ordering.black-on-rose{
+.corespring-placement-ordering.black-on-rose {
   background-color: mistyrose;
   .choice {
      background: mistyrose;
   }
 }
 
-.corespring-placement-ordering.white-on-black{
+.corespring-placement-ordering.white-on-black {
 
   background-color: black;
 
@@ -59,11 +59,18 @@
 
     &.placeholder {
       opacity: 0;
+      &:hover {
+        cursor: inherit;
+      }
     }
+
     &.dragging {
       opacity: 0.5;
     }
   
+    &:hover {
+      cursor: pointer;
+    }
   
     &[disabled]{
       cursor: not-allowed;
