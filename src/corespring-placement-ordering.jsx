@@ -4,8 +4,10 @@ import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
-import { DragDropContext as ddContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import withDragDropContext from './with-drag-drop-context';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 export class CorespringPlacementOrdering extends React.Component {
 
@@ -129,7 +131,7 @@ export class CorespringPlacementOrdering extends React.Component {
     return (
       <div className={className}>
 
-        <div className="prompt">{this.props.model.prompt}</div>
+        <div className="<prompt></prompt>">{this.props.model.prompt}</div>
         <CorespringCorrectAnswerToggle
           show={showToggle}
           toggled={this.state.showingCorrect}
@@ -164,4 +166,4 @@ CorespringPlacementOrdering.defaultProps = {
   }
 };
 
-export default ddContext(HTML5Backend)(CorespringPlacementOrdering);
+export default withDragDropContext(CorespringPlacementOrdering);

@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-
 export function outcome(question, session, env) {
 
   session.value = session.value || [];
@@ -24,26 +23,25 @@ export function model(question, session, env) {
   console.log('[state] session:', JSON.stringify(session, null, '  '));
   console.log('[state] env:', JSON.stringify(env, null, '  '));
 
-  function lookup(value) {
-    var localeKey = env.locale || (question.translations || {}).default_locale || 'en_US';
-    var map = ((question.translations || {})[localeKey] || {});
-    if (value.indexOf('$') === 0) {
-      var key = value.substring(1);
-      var out = map[key];
-      if (!out) {
-        console.warn('not able to find translation for: ' + key);
-      }
-      return out || value;
+  function getLabel(arr, lang, fallbackLang) {
+    let label = arr.find(l => l.lang === lang);
+
+    if (label && !_.isEmpty(label.value)) {
+      return label.value;
     } else {
-      return value;
+      let out = arr.find(l => l.lang === fallbackLang);
+      if (!out) {
+        console.warn(`can't find translation for: ${fallbackLang} in ${JSON.stringify(arr)}`);
+      }
+      return out && !_.isEmpty(out.value) ? out.value : undefined;
     }
   }
 
   var base = _.assign({}, _.cloneDeep(question.model));
-  base.prompt = lookup(base.prompt);
+  base.prompt = getLabel(base.prompt, env.locale, question.defaultLang);
   base.outcomes = [];
   base.choices = _.map(base.choices, (c) => {
-    c.label = lookup(c.label);
+    c.label = getLabel(c.label, env.locale, question.defaultLang);
     return c;
   });
 
