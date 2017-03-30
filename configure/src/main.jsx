@@ -124,4 +124,4 @@ class Main extends React.Component {
 
 }
 
-export default Main;
+export default DragDropContext(HTML5Backend)(Main);
