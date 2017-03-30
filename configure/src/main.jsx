@@ -5,6 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import ChoiceConfig from './choice-config';
+import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import RaisedButton from 'material-ui/RaisedButton';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -86,6 +87,18 @@ class Main extends React.Component {
           <p>After setting up the choices, drag and drop them into the correct order. Students will see a shuffled version of the choices.</p>
           <h2>Choices</h2>
           <p>Add a label to choice area</p>
+          <div className="language-controls">
+            <Langs
+              label="Choose language to edit"
+              langs={this.props.model.langs}
+              selected={this.state.activeLang}
+              onChange={(e, index, l) => this.setState({ activeLang: l })} />
+            <Langs
+              label="Default language"
+              langs={this.props.model.langs}
+              selected={this.props.model.defaultLang}
+              onChange={(e, index, l) => this.props.onDefaultLangChanged(l)} />
+          </div>
           <MultiLangInput
             textFieldLabel="Prompt"
             value={this.props.model.model.prompt}

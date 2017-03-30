@@ -41,9 +41,6 @@ class ChoiceConfig extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      activeLang: this.props.activeLang
-    }
   }
 
   onLabelChanged(value, lang) {
@@ -59,7 +56,7 @@ class ChoiceConfig extends React.Component {
         style={{display: 'inline-block'}}
         placeholder="Enter a choice"
         value={choice.label}
-        lang={this.state.activeLang}
+        lang={this.props.activeLang}
         onChange={this.onLabelChanged.bind(this)} />
       <IconButton style={{flex: 1}} onClick={this.props.onDelete.bind(this)}><ActionDelete/></IconButton>
     </li>));
