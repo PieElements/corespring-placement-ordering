@@ -9,8 +9,7 @@ import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import RaisedButton from 'material-ui/RaisedButton';
 import HTML5Backend from 'react-dnd-html5-backend';
-import withDragDropContext from '../../../../../../../src/with-drag-drop-context'; 
-import { DragDropContext as ddContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 
 require('./main.less');
 
@@ -125,4 +124,4 @@ class Main extends React.Component {
 
 }
 
-export default withDragDropContext(Main);
+export default Main;

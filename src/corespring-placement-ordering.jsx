@@ -4,8 +4,10 @@ import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
-import withDragDropContext from './with-drag-drop-context';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 
 injectTapEventPlugin();
 
@@ -166,4 +168,4 @@ CorespringPlacementOrdering.defaultProps = {
   }
 };
 
-export default withDragDropContext(CorespringPlacementOrdering);
+export default DragDropContext(HTML5Backend)(CorespringPlacementOrdering);
