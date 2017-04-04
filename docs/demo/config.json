@@ -35,6 +35,7 @@
         "choices": [
           {
             "id": "c2",
+            "shuffle": false,
             "label": [
               {
                 "lang": "en-US",
@@ -86,6 +87,9 @@
             ]
           }
         ]
+      },
+      "config": {
+        "shuffle": true
       }
     }
   ]

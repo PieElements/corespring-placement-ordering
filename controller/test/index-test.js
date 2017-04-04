@@ -1,11 +1,22 @@
-import * as controller from '../src/index';
 import chai from 'chai';
+import sinon from 'sinon';
+import proxyquire from 'proxyquire';
 import shallowDeepEqual from 'chai-shallow-deep-equal';
 import _ from 'lodash';
 
 chai.use(shallowDeepEqual);
 
 const expect = chai.expect;
+
+var controller;
+
+beforeEach(() => {
+  controller = proxyquire('../src/index', {'lodash': {
+    shuffle: function(args) {
+      return [args[1], args[0]];
+    }
+  }});
+});
 
 describe('index', () => {
 
@@ -132,6 +143,42 @@ describe('index', () => {
       it('looks up translations for label', assertModel(model, session, env, {choices: [{label: 'Apple'}]}));
       it('looks up translations for prompt in spanish', assertModel(model, session, {locale: 'es-ES'}, {prompt: 'hola'}));
       it('looks up translations for label in spanish', assertModel(model, session, {locale: 'es-ES'}, {choices: [{label: 'Ahoy'}]}));
+    });
+
+    describe('shuffle', () => {
+      let model = {
+        correctResponse: ['a', 'b'],
+        model: {
+          prompt: "this is a prmopt",
+          choices: [
+            {label: 'one', id: '1', shuffle: false},
+            {label: 'two', id: '2'},
+            {label: 'three', id: '3'}
+          ]
+        },
+        config: {
+          shuffle: true
+        }
+      };
+
+      let session = {};
+      let env = {};
+
+      it('does not shuffle choice marked "shuffle": false', (done) => {
+        controller.model(model, session, env).then((result) => {
+          expect(result.choices[0]).to.eql(model.model.choices[0]);
+          done();
+        }).catch(done);
+      });
+
+      it('shuffles choices not marked "shuffle": false', (done) => {
+        controller.model(model, session, env).then((result) => {
+          expect(result.choices[1]).to.eql(model.model.choices[2]);
+          expect(result.choices[2]).to.eql(model.model.choices[1]);
+          done();
+        }).catch(done);
+      });
+
     });
 
   });
