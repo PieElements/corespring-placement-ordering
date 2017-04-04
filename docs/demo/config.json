@@ -38,7 +38,8 @@
         "choices": [
           {
             "id": "c2",
-            "label": "$LABEL_LEMON"
+            "label": "$LABEL_LEMON",
+            "shuffle": false
           },
           {
             "id": "c3",
@@ -53,6 +54,9 @@
             "label": "$LABEL_PEAR"
           }
         ]
+      },
+      "config": {
+        "shuffle": true
       }
     }
   ]
