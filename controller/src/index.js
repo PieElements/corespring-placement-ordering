@@ -39,10 +39,41 @@ export function model(question, session, env) {
     }
   }
 
+  /**
+   * If there is a shuffled order stored in the session, restore it. Otherwise shuffle
+   * all choices which do not have their shuffle property explicitly set to false. 
+   */
+  function shuffle(session, choices) {
+    if (session.stash && session.stash.shuffledOrder) {
+      return session.stash.shuffledOrder.map((choiceId) => {
+        return choices.find(({id}) => {
+          return id === choiceId;
+        });
+      });
+    } else {
+      let result = _.cloneDeep(choices);
+      for (var i = choices.length - 1; i >= 0; i--) {
+        if (choices[i].shuffle === false) {
+          result.splice(i, 1);
+        }
+      }
+      let shuffled = _.shuffle(_.cloneDeep(result));
+      choices.forEach((choice, index) => {
+        if (choice.shuffle === false) {
+          shuffled.splice(index, 0, choice);
+        }
+      });
+      session.stash = session.stash || {};
+      session.stash.shuffledOrder = shuffled.map(({id}) => id);
+      return shuffled;
+    }
+  }
+
   var base = _.assign({}, _.cloneDeep(question.model));
   base.prompt = lookup(base.prompt);
   base.outcomes = [];
-  base.choices = _.map(base.choices, (c) => {
+  let choices = question.config && question.config.shuffle ? shuffle(session, base.choices) : base.choices; 
+  base.choices = _.map(choices, (c) => {
     c.label = lookup(c.label);
     return c;
   });
