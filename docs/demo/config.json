@@ -39,7 +39,8 @@
           {
             "id": "c2",
             "label": "$LABEL_LEMON",
-            "shuffle": false
+            "shuffle": false,
+            "moveOnDrag": false
           },
           {
             "id": "c3",

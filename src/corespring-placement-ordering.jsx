@@ -28,11 +28,14 @@ export class CorespringPlacementOrdering extends React.Component {
     this.setState({ showingCorrect: val });
   }
 
-  onDropChoice(choiceId, index) {
+  onDropChoice(choiceId, index, sourceId) {
+    let choice = this.props.model.choices.find(({id}) => id === choiceId);
     this.state.order[index] = choiceId;
     for (var i = 0; i < this.state.order.length; i++) {
       if (i !== index && this.state.order[i] === choiceId) {
-        this.state.order[i] = null;
+        if (sourceId === i || choice.moveOnDrag !== false) {
+          this.state.order[i] = null;
+        }
       }
     }
     this.setState({ order: this.state.order });
@@ -56,9 +59,10 @@ export class CorespringPlacementOrdering extends React.Component {
     const choices = this.props.model.choices.map(
       (choice, idx) => {
         let isDroppedAlready = _.find(this.state.order, (t) => { return t === choice.id; });
+        let moveOnDrag = choice.moveOnDrag !== false;
         const placeholder = <div className="choice placeholder" key={idx} />;
 
-        return templateIf(isDroppedAlready)(placeholder,
+        return templateIf(isDroppedAlready && moveOnDrag)(placeholder,
           <DraggableChoice
             text={choice.label}
             key={idx}
@@ -82,21 +86,23 @@ export class CorespringPlacementOrdering extends React.Component {
           text={(choice || {}).label}
           key={idx}
           index={idx}
+          sourceId={idx}
           choiceId={choiceId}
           outcome={outcome.outcome}
           componentId={this.componentId}
           onDragInvalid={this.onDragInvalid.bind(this)}
         ></DraggableChoice>, <div className="choice placeholder" key={idx} />);
 
-        return <DroppableTarget
-          key={idx}
-          index={idx}
-          targetId={val.id}
-          componentId={this.componentId}
-          onDropChoice={this.onDropChoice.bind(this)}
-        >
-          {maybeChoice}
-        </DroppableTarget>;
+        return (
+          <DroppableTarget
+              key={idx}
+              index={idx}
+              targetId={val.id}
+              componentId={this.componentId}
+              onDropChoice={this.onDropChoice.bind(this)}>
+            {maybeChoice}
+          </DroppableTarget>
+        );
       }
     );
 
@@ -118,7 +124,6 @@ export class CorespringPlacementOrdering extends React.Component {
             </tr>
           </tbody>
         </table>
-
       </div>;
     };
 
