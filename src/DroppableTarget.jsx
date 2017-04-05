@@ -4,13 +4,12 @@ import { DropTarget as dropTarget } from 'react-dnd';
 const choiceTarget = {
   drop(props, monitor, dropZone) {
     let draggedItem = monitor.getItem();
-    props.onDropChoice(draggedItem.id, props.index);
+    props.onDropChoice(draggedItem.id, props.index, draggedItem.sourceId);
   },
 
   canDrop(props, monitor) {
     let draggedItem = monitor.getItem();
     return draggedItem.componentId == props.componentId;
-
   }
 };
 
