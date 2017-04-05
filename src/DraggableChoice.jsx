@@ -7,6 +7,7 @@ const choiceSource = {
     return {
       id: props.choiceId,
       index: props.index,
+      sourceId: props.sourceId,
       componentId: props.componentId
     };
   },

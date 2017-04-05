@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from './choice-config';
 import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
@@ -26,13 +27,37 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeLang: props.model.defaultLang
+      activeLang: props.model.defaultLang,
+      allMoveOnDrag: this._moveAllOnDrag()
     };
+    console.log('test', this._moveAllOnDrag());
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      allMoveOnDrag: this._moveAllOnDrag(props)
+    });
+  }
+
+  _moveAllOnDrag(props) {
+    props = props || this.props;
+    return props.model.model.choices.find(({moveOnDrag}) => moveOnDrag !== false) === undefined;
+  }
+
+  toggleAllOnDrag() { 
+    this.props.model.model.choices.forEach((choice) => choice.moveOnDrag = this.state.allMoveOnDrag);
+    this.props.onChoicesChanged(this.props.model.model.choices);
   }
 
   onLabelChanged(choiceId, value, targetLang) {
     let translation = this.props.model.model.choices.find(({id}) => id === choiceId).label.find(({lang}) => lang === targetLang);
     translation.value = value;
+    this.props.onChoicesChanged(this.props.model.model.choices);
+  }
+
+  onMoveOnDragChanged(choiceId, value) {
+    let choice = this.props.model.model.choices.find(({id}) => id === choiceId);
+    choice.moveOnDrag = value;
     this.props.onChoicesChanged(this.props.model.model.choices);
   }
 
@@ -103,6 +128,7 @@ class Main extends React.Component {
             value={this.props.model.model.prompt}
             lang={this.state.activeLang}
             onChange={this.onPromptChanged} />
+          <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)}/>
           <ul className="choices-config-list">{
             this.props.model.correctResponse.map((id, index) => {
               let choice = choiceForId(id);
@@ -110,6 +136,7 @@ class Main extends React.Component {
                 moveChoice={this.moveChoice.bind(this)}
                 index={index}
                 onLabelChanged={this.onLabelChanged.bind(this, id)} 
+                onMoveOnDragChanged={this.onMoveOnDragChanged.bind(this, id)}
                 onDelete={this.onDeleteChoice.bind(this, choice)}
                 activeLang={this.state.activeLang} 
                 key={index} 

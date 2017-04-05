@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import IconButton from 'material-ui/IconButton';
+import Checkbox from 'material-ui/Checkbox';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import MultiLangInput from './multi-lang-input';
 import { DragSource as dragSource } from 'react-dnd';
@@ -47,10 +48,14 @@ class ChoiceConfig extends React.Component {
     this.props.onLabelChanged(value, lang);
   }
 
+  onMoveOnDragChanged(event, value) {
+    this.props.onMoveOnDragChanged(!value);
+  }
+
   render() {
     const { choice, connectDragSource, connectDropTarget, isDragging } = this.props;
     const opacity = isDragging ? 0 : 1;
-    
+    console.log(choice);
     return connectDragSource(connectDropTarget(<li className="choice-config" style={{opacity: opacity}}>
       <MultiLangInput
         style={{display: 'inline-block'}}
@@ -59,6 +64,7 @@ class ChoiceConfig extends React.Component {
         lang={this.props.activeLang}
         onChange={this.onLabelChanged.bind(this)} />
       <IconButton style={{flex: 1}} onClick={this.props.onDelete.bind(this)}><ActionDelete/></IconButton>
+      <Checkbox label="Remove tile after placing" checked={choice.moveOnDrag === false} onCheck={this.onMoveOnDragChanged.bind(this)}/>
     </li>));
   }
 

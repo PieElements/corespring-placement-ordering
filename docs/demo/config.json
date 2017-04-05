@@ -35,7 +35,6 @@
         "choices": [
           {
             "id": "c2",
-            "shuffle": false,
             "label": [
               {
                 "lang": "en-US",
@@ -45,7 +44,9 @@
                 "lang": "es-ES",
                 "value": "Limón"
               }
-            ]
+            ],
+            "shuffle": false,
+            "moveOnDrag": false
           },
           {
             "id": "c3",
@@ -58,7 +59,8 @@
                 "lang": "es-ES",
                 "value": "Melón"
               }
-            ]
+            ],
+            "moveOnDrag": false
           },
           {
             "id": "c1",
@@ -71,7 +73,8 @@
                 "lang": "es-ES",
                 "value": "Arándano"
               }
-            ]
+            ],
+            "moveOnDrag": false
           },
           {
             "id": "c4",
@@ -84,7 +87,8 @@
                 "lang": "es-ES",
                 "value": "Pera"
               }
-            ]
+            ],
+            "moveOnDrag": false
           }
         ]
       },
