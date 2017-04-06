@@ -160,8 +160,6 @@ class MainWithContext extends React.Component {
   }
 
   render() {
-    console.log('[render]', this.context);
-    React.createElement(Main, this.props, this)
     return <Main {... this.props} />
   }
 }
