@@ -1,16 +1,15 @@
-import React from 'react';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
-import TextField from 'material-ui/TextField';
+
 import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from './choice-config';
 import Langs from './langs';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MultiLangInput from './multi-lang-input';
 import RaisedButton from 'material-ui/RaisedButton';
-import HTML5Backend from 'react-dnd-html5-backend';
-import {DragDropContext} from 'react-dnd';
+import React from 'react';
+import TextField from 'material-ui/TextField';
+import getDndManager from 'corespring-placement-ordering/src/dnd-global-context';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 require('./main.less');
 
@@ -24,8 +23,9 @@ const muiTheme = getMuiTheme({
 
 class Main extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
+    console.log('context: ', context);
     this.state = {
       activeLang: props.model.defaultLang,
       allMoveOnDrag: this._moveAllOnDrag()
@@ -41,22 +41,22 @@ class Main extends React.Component {
 
   _moveAllOnDrag(props) {
     props = props || this.props;
-    return props.model.model.choices.find(({moveOnDrag}) => moveOnDrag !== false) === undefined;
+    return props.model.model.choices.find(({ moveOnDrag }) => moveOnDrag !== false) === undefined;
   }
 
-  toggleAllOnDrag() { 
+  toggleAllOnDrag() {
     this.props.model.model.choices.forEach((choice) => choice.moveOnDrag = this.state.allMoveOnDrag);
     this.props.onChoicesChanged(this.props.model.model.choices);
   }
 
   onLabelChanged(choiceId, value, targetLang) {
-    let translation = this.props.model.model.choices.find(({id}) => id === choiceId).label.find(({lang}) => lang === targetLang);
+    let translation = this.props.model.model.choices.find(({ id }) => id === choiceId).label.find(({ lang }) => lang === targetLang);
     translation.value = value;
     this.props.onChoicesChanged(this.props.model.model.choices);
   }
 
   onMoveOnDragChanged(choiceId, value) {
-    let choice = this.props.model.model.choices.find(({id}) => id === choiceId);
+    let choice = this.props.model.model.choices.find(({ id }) => id === choiceId);
     choice.moveOnDrag = value;
     this.props.onChoicesChanged(this.props.model.model.choices);
   }
@@ -82,7 +82,7 @@ class Main extends React.Component {
   onAddChoice() {
     function findFreeChoiceSlot(props) {
       let slot = 1;
-      let ids = props.model.model.choices.map(({id}) => id);
+      let ids = props.model.model.choices.map(({ id }) => id);
       while (ids.includes(`c${slot}`)) {
         slot++;
       }
@@ -128,18 +128,18 @@ class Main extends React.Component {
             value={this.props.model.model.prompt}
             lang={this.state.activeLang}
             onChange={this.onPromptChanged} />
-          <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)}/>
+          <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)} />
           <ul className="choices-config-list">{
             this.props.model.correctResponse.map((id, index) => {
               let choice = choiceForId(id);
-              return <ChoiceConfig 
+              return <ChoiceConfig
                 moveChoice={this.moveChoice.bind(this)}
                 index={index}
-                onLabelChanged={this.onLabelChanged.bind(this, id)} 
+                onLabelChanged={this.onLabelChanged.bind(this, id)}
                 onMoveOnDragChanged={this.onMoveOnDragChanged.bind(this, id)}
                 onDelete={this.onDeleteChoice.bind(this, choice)}
-                activeLang={this.state.activeLang} 
-                key={index} 
+                activeLang={this.state.activeLang}
+                key={index}
                 choice={choice} />;
             })
           }</ul>
@@ -151,4 +151,24 @@ class Main extends React.Component {
 
 }
 
-export default DragDropContext(HTML5Backend)(Main);
+class MainWithContext extends React.Component {
+
+  getChildContext() {
+    return {
+      dragDropManager: getDndManager()
+    }
+  }
+
+  render() {
+    console.log('[render]', this.context);
+    React.createElement(Main, this.props, this)
+    return <Main {... this.props} />
+  }
+}
+
+
+MainWithContext.childContextTypes = {
+  dragDropManager: React.PropTypes.object.isRequired
+}
+
+export default MainWithContext;

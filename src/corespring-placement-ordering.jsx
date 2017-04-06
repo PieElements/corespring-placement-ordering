@@ -1,13 +1,10 @@
-import React from 'react';
-import _ from 'lodash';
 import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import _ from 'lodash';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
 
 injectTapEventPlugin();
 
@@ -33,7 +30,7 @@ export class CorespringPlacementOrdering extends React.Component {
   }
 
   onDropChoice(choiceId, index, sourceId) {
-    let choice = this.props.model.choices.find(({id}) => id === choiceId);
+    let choice = this.props.model.choices.find(({ id }) => id === choiceId);
     this.state.order[index] = choiceId;
     for (var i = 0; i < this.state.order.length; i++) {
       if (i !== index && this.state.order[i] === choiceId) {
@@ -99,11 +96,11 @@ export class CorespringPlacementOrdering extends React.Component {
 
         return (
           <DroppableTarget
-              key={idx}
-              index={idx}
-              targetId={val.id}
-              componentId={this.componentId}
-              onDropChoice={this.onDropChoice.bind(this)}>
+            key={idx}
+            index={idx}
+            targetId={val.id}
+            componentId={this.componentId}
+            onDropChoice={this.onDropChoice.bind(this)}>
             {maybeChoice}
           </DroppableTarget>
         );
@@ -173,4 +170,4 @@ CorespringPlacementOrdering.defaultProps = {
   }
 };
 
-export default DragDropContext(HTML5Backend)(CorespringPlacementOrdering);
+export default CorespringPlacementOrdering;
