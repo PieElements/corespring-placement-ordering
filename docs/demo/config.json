@@ -11,10 +11,22 @@
       "id": "1",
       "element": "corespring-placement-ordering",
       "correctResponse": [
-        "c1",
-        "c4",
-        "c3",
-        "c2"
+        {
+          "id": "c1",
+          "weight": 0.2
+        },
+        {
+          "id": "c4",
+          "weight": 0.2
+        },
+        {
+          "id": "c3",
+          "weight": 0.3
+        },
+        {
+          "id": "c2",
+          "weight": 0.3
+        }
       ],
       "translations": {
         "default_locale": "en-US",
