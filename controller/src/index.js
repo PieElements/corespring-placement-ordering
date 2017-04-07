@@ -1,17 +1,15 @@
 import _ from 'lodash';
-
+import { score, flattenCorrect } from './scoring';
 
 export function outcome(question, session, env) {
-
   session.value = session.value || [];
   return new Promise((resolve, reject) => {
     if (!question || !question.correctResponse || _.isEmpty(question.correctResponse)) {
       reject(new Error('Question is missing required array: correctResponse'));
     } else {
-      const allCorrect = _.isEqual(_.cloneDeep(session.value).sort(), _.cloneDeep(question.correctResponse).sort());
       resolve({
         score: {
-          scaled: allCorrect ? 1 : 0
+          scaled: score(question, session)
         }
       });
     }
@@ -23,7 +21,7 @@ export function model(question, session, env) {
   console.log('[state] question:', JSON.stringify(question, null, '  '));
   console.log('[state] session:', JSON.stringify(session, null, '  '));
   console.log('[state] env:', JSON.stringify(env, null, '  '));
-
+  
   function lookup(value) {
     var localeKey = env.locale || (question.translations || {}).default_locale || 'en_US';
     var map = ((question.translations || {})[localeKey] || {});
@@ -86,12 +84,12 @@ export function model(question, session, env) {
     base.outcomes = _.map(session.value, function(c, idx) {
       return {
         id: c,
-        outcome: question.correctResponse[idx] === c ? 'correct' : 'incorrect'
+        outcome: flattenCorrect(question)[idx] === c ? 'correct' : 'incorrect'
       }
     });
-    var allCorrect = _.isEqual(question.correctResponse, session.value);
+    var allCorrect = _.isEqual(flattenCorrect(question), session.value);
     if (!allCorrect) {
-      base.correctResponse = question.correctResponse;
+      base.correctResponse = flattenCorrect(question);
     }
   }
 
