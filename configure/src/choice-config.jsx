@@ -55,7 +55,6 @@ class ChoiceConfig extends React.Component {
   render() {
     const { choice, connectDragSource, connectDropTarget, isDragging } = this.props;
     const opacity = isDragging ? 0 : 1;
-    console.log(choice);
     return connectDragSource(connectDropTarget(<li className="choice-config" style={{opacity: opacity}}>
       <MultiLangInput
         style={{display: 'inline-block'}}

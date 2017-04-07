@@ -16,14 +16,26 @@
         "es-ES"
       ],
       "correctResponse": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        {
+          "id": "c1",
+          "weight": 0.2
+        },
+        {
+          "id": "c4",
+          "weight": 0.2
+        },
+        {
+          "id": "c3",
+          "weight": 0.3
+        },
+        {
+          "id": "c2",
+          "weight": 0.3
+        }
       ],
       "model": {
         "prompt": [
-           {
+          {
             "lang": "en-US",
             "value": "Arrange the fruits alphabetically"
           },

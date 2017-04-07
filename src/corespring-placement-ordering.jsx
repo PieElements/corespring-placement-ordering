@@ -96,11 +96,11 @@ export class CorespringPlacementOrdering extends React.Component {
 
         return (
           <DroppableTarget
-            key={idx}
-            index={idx}
-            targetId={val.id}
-            componentId={this.componentId}
-            onDropChoice={this.onDropChoice.bind(this)}>
+              key={idx}
+              index={idx}
+              targetId={val.id}
+              componentId={this.componentId}
+              onDropChoice={this.onDropChoice.bind(this)}>
             {maybeChoice}
           </DroppableTarget>
         );

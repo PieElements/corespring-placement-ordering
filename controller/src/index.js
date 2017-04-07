@@ -1,16 +1,15 @@
 import _ from 'lodash';
+import { score, flattenCorrect } from './scoring';
 
 export function outcome(question, session, env) {
-
   session.value = session.value || [];
   return new Promise((resolve, reject) => {
     if (!question || !question.correctResponse || _.isEmpty(question.correctResponse)) {
       reject(new Error('Question is missing required array: correctResponse'));
     } else {
-      const allCorrect = _.isEqual(_.cloneDeep(session.value).sort(), _.cloneDeep(question.correctResponse).sort());
       resolve({
         score: {
-          scaled: allCorrect ? 1 : 0
+          scaled: score(question, session)
         }
       });
     }
@@ -36,7 +35,7 @@ export function model(question, session, env) {
       return out && !_.isEmpty(out.value) ? out.value : undefined;
     }
   }
-
+  
   /**
    * If there is a shuffled order stored in the session, restore it. Otherwise shuffle
    * all choices which do not have their shuffle property explicitly set to false. 
@@ -84,12 +83,12 @@ export function model(question, session, env) {
     base.outcomes = _.map(session.value, function(c, idx) {
       return {
         id: c,
-        outcome: question.correctResponse[idx] === c ? 'correct' : 'incorrect'
+        outcome: flattenCorrect(question)[idx] === c ? 'correct' : 'incorrect'
       }
     });
-    var allCorrect = _.isEqual(question.correctResponse, session.value);
+    var allCorrect = _.isEqual(flattenCorrect(question), session.value);
     if (!allCorrect) {
-      base.correctResponse = question.correctResponse;
+      base.correctResponse = flattenCorrect(question);
     }
   }
 

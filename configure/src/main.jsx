@@ -99,11 +99,11 @@ class Main extends React.Component {
   }
 
   render() {
-    let choiceForId = id => {
-      return this.props.model.model.choices.find((choice) => {
-        return choice.id === id;
-      });
+    let choiceForId = choiceId => {
+      let choice = this.props.model.model.choices.find(({id}) => choiceId === id);
+      return choice;
     };
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="corespring-placement-ordering-configure-root">
@@ -130,7 +130,8 @@ class Main extends React.Component {
             onChange={this.onPromptChanged} />
           <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)} />
           <ul className="choices-config-list">{
-            this.props.model.correctResponse.map((id, index) => {
+            this.props.model.correctResponse.map((response, index) => {
+              let id = response instanceof Object ? response.id : response;
               let choice = choiceForId(id);
               return <ChoiceConfig
                 moveChoice={this.moveChoice.bind(this)}
