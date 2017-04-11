@@ -10,6 +10,8 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import getDndManager from 'corespring-placement-ordering/src/dnd-global-context';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import PartialScoringConfig from './partial-scoring-config';
 
 require('./main.less');
 
@@ -25,12 +27,10 @@ class Main extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    console.log('context: ', context);
     this.state = {
       activeLang: props.model.defaultLang,
       allMoveOnDrag: this._moveAllOnDrag()
     };
-    console.log('test', this._moveAllOnDrag());
   }
 
   componentWillReceiveProps(props) {
@@ -79,6 +79,10 @@ class Main extends React.Component {
     this.props.onCorrectResponseChanged(this.props.model.correctResponse);
   }
 
+  onPartialScoringChange(partialScoring) {
+    this.props.onPartialScoringChange(partialScoring);
+  }
+
   onAddChoice() {
     function findFreeChoiceSlot(props) {
       let slot = 1;
@@ -107,44 +111,54 @@ class Main extends React.Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="corespring-placement-ordering-configure-root">
-          <p>In Ordering, a student is asked to sequence events or inputs in a specific order.</p>
-          <p>After setting up the choices, drag and drop them into the correct order. Students will see a shuffled version of the choices.</p>
-          <h2>Choices</h2>
-          <p>Add a label to choice area</p>
-          <div className="language-controls">
-            <Langs
-              label="Choose language to edit"
-              langs={this.props.model.langs}
-              selected={this.state.activeLang}
-              onChange={(e, index, l) => this.setState({ activeLang: l })} />
-            <Langs
-              label="Default language"
-              langs={this.props.model.langs}
-              selected={this.props.model.defaultLang}
-              onChange={(e, index, l) => this.props.onDefaultLangChanged(l)} />
-          </div>
-          <MultiLangInput
-            textFieldLabel="Prompt"
-            value={this.props.model.model.prompt}
-            lang={this.state.activeLang}
-            onChange={this.onPromptChanged} />
-          <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)} />
-          <ul className="choices-config-list">{
-            this.props.model.correctResponse.map((response, index) => {
-              let id = response instanceof Object ? response.id : response;
-              let choice = choiceForId(id);
-              return <ChoiceConfig
-                moveChoice={this.moveChoice.bind(this)}
-                index={index}
-                onLabelChanged={this.onLabelChanged.bind(this, id)}
-                onMoveOnDragChanged={this.onMoveOnDragChanged.bind(this, id)}
-                onDelete={this.onDeleteChoice.bind(this, choice)}
-                activeLang={this.state.activeLang}
-                key={index}
-                choice={choice} />;
-            })
-          }</ul>
-          <RaisedButton label="Add a choice" onClick={this.onAddChoice.bind(this)} />
+          <Tabs>
+            <Tab label="Design">
+              <p>In Ordering, a student is asked to sequence events or inputs in a specific order.</p>
+              <p>After setting up the choices, drag and drop them into the correct order. Students will see a shuffled version of the choices.</p>
+              <h2>Choices</h2>
+              <p>Add a label to choice area</p>
+              <div className="language-controls">
+                <Langs
+                  label="Choose language to edit"
+                  langs={this.props.model.langs}
+                  selected={this.state.activeLang}
+                  onChange={(e, index, l) => this.setState({ activeLang: l })} />
+                <Langs
+                  label="Default language"
+                  langs={this.props.model.langs}
+                  selected={this.props.model.defaultLang}
+                  onChange={(e, index, l) => this.props.onDefaultLangChanged(l)} />
+              </div>
+              <MultiLangInput
+                textFieldLabel="Prompt"
+                value={this.props.model.model.prompt}
+                lang={this.state.activeLang}
+                onChange={this.onPromptChanged} />
+              <Checkbox label="Remove all tiles after placing" checked={this.state.allMoveOnDrag} onCheck={this.toggleAllOnDrag.bind(this)} />
+              <ul className="choices-config-list">{
+                this.props.model.correctResponse.map((response, index) => {
+                  let id = response instanceof Object ? response.id : response;
+                  let choice = choiceForId(id);
+                  return <ChoiceConfig
+                    moveChoice={this.moveChoice.bind(this)}
+                    index={index}
+                    onLabelChanged={this.onLabelChanged.bind(this, id)}
+                    onMoveOnDragChanged={this.onMoveOnDragChanged.bind(this, id)}
+                    onDelete={this.onDeleteChoice.bind(this, choice)}
+                    activeLang={this.state.activeLang}
+                    key={index}
+                    choice={choice} />;
+                })
+              }</ul>
+              <RaisedButton label="Add a choice" onClick={this.onAddChoice.bind(this)} />
+            </Tab>
+            <Tab label="Scoring">
+              <PartialScoringConfig
+                partialScoring={this.props.partialScoring}
+                numberOfCorrectResponses={this.props.model.correctResponse.length}
+                onPartialScoringChange={this.onPartialScoringChange.bind(this)} />
+            </Tab>
+          </Tabs>
         </div>
       </MuiThemeProvider>
     )

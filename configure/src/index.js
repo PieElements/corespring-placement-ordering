@@ -40,12 +40,23 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     this._rerender();
   }
 
+  onPartialScoringChange(partialScoring) {
+    this._model.partialScoring = partialScoring;
+    console.log('partialScoring', partialScoring);
+    let detail = {
+      update: this._model
+    };
+    this.dispatchEvent(new CustomEvent('model.updated', {bubbles: true, detail}));
+    this._rerender();
+  }
+
   _rerender() {
     let element = React.createElement(Main, {
       model: this._model,
       onChoicesChanged: this.onChoicesChanged.bind(this),
       onCorrectResponseChanged: this.onCorrectResponseChanged.bind(this),
-      onDefaultLangChanged: this.onDefaultLangChanged.bind(this)
+      onDefaultLangChanged: this.onDefaultLangChanged.bind(this),
+      onPartialScoringChange: this.onPartialScoringChange.bind(this)
     });
     ReactDOM.render(element, this);
   }

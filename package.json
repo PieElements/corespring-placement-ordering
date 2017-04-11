@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "corespring-correct-answer-toggle": "^3.0.0",
+    "decimal.js": "^7.2.0",
     "less": "^2.7.1",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.4",
