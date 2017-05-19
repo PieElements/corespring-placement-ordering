@@ -1,8 +1,6 @@
 import { DragDropManager } from 'dnd-core';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-let defaultManager;
-
 /**
  * This is singleton used to initialize only once dnd in our app.
  * If you initialized dnd and then try to initialize another dnd
@@ -14,11 +12,11 @@ let defaultManager;
  */
 export default function getDndContext() {
 
-  console.log('getDnDManager...', defaultManager);
+  console.log('getDnDManager...', window.defaultManager);
 
-  if (defaultManager) return defaultManager;
+  if (window.defaultManager) return window.defaultManager;
 
-  defaultManager = new DragDropManager(HTML5Backend);
+  window.defaultManager = new DragDropManager(HTML5Backend);
 
-  return defaultManager;
+  return window.defaultManager;
 }
