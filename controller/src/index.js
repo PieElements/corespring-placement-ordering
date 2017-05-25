@@ -1,5 +1,6 @@
+import { flattenCorrect, score } from './scoring';
+
 import _ from 'lodash';
-import { score, flattenCorrect } from './scoring';
 
 export function outcome(question, session, env) {
   session.value = session.value || [];
@@ -21,7 +22,7 @@ export function model(question, session, env) {
   console.log('[state] question:', JSON.stringify(question, null, '  '));
   console.log('[state] session:', JSON.stringify(session, null, '  '));
   console.log('[state] env:', JSON.stringify(env, null, '  '));
-  
+
   function lookup(value) {
     var localeKey = env.locale || (question.translations || {}).default_locale || 'en_US';
     var map = ((question.translations || {})[localeKey] || {});
@@ -44,7 +45,7 @@ export function model(question, session, env) {
   function shuffle(session, choices) {
     if (session.stash && session.stash.shuffledOrder) {
       return session.stash.shuffledOrder.map((choiceId) => {
-        return choices.find(({id}) => {
+        return choices.find(({ id }) => {
           return id === choiceId;
         });
       });
@@ -62,7 +63,7 @@ export function model(question, session, env) {
         }
       });
       session.stash = session.stash || {};
-      session.stash.shuffledOrder = shuffled.map(({id}) => id);
+      session.stash.shuffledOrder = shuffled.map(({ id }) => id);
       return shuffled;
     }
   }
@@ -70,7 +71,8 @@ export function model(question, session, env) {
   var base = _.assign({}, _.cloneDeep(question.model));
   base.prompt = lookup(base.prompt);
   base.outcomes = [];
-  let choices = question.config && question.config.shuffle ? shuffle(session, base.choices) : base.choices; 
+  base.completeLength = question.correctResponse.length;
+  let choices = question.config && question.config.shuffle ? shuffle(session, base.choices) : base.choices;
   base.choices = _.map(choices, (c) => {
     c.label = lookup(c.label);
     return c;
@@ -81,7 +83,7 @@ export function model(question, session, env) {
   }
 
   if (env.mode === 'evaluate') {
-    base.outcomes = _.map(session.value, function(c, idx) {
+    base.outcomes = _.map(session.value, function (c, idx) {
       return {
         id: c,
         outcome: flattenCorrect(question)[idx] === c ? 'correct' : 'incorrect'
@@ -101,7 +103,7 @@ export function model(question, session, env) {
     black_on_white: 'default'
   };
 
-  if (env.accessibility && env.accessibility.colorContrast && map[env.accessibility.colorContrast]){
+  if (env.accessibility && env.accessibility.colorContrast && map[env.accessibility.colorContrast]) {
     base.className = map[env.accessibility.colorContrast];
   }
 

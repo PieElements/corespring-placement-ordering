@@ -1,12 +1,13 @@
-import React from 'react';
+import { amber300, amber500, amber600, green200, green500 } from 'material-ui/styles/colors';
+
+import CorespringPlacementOrdering from './corespring-placement-ordering.jsx'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import React from 'react';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { green200, green500, amber300, amber500, amber600 } from 'material-ui/styles/colors';
 
 require('./index.less');
 
-import CorespringPlacementOrdering from './corespring-placement-ordering.jsx'
 
 class Main extends React.Component {
 
@@ -41,6 +42,7 @@ class Main extends React.Component {
         <CorespringPlacementOrdering
           model={this.props.model}
           session={this.props.session}
+          sessionChanged={this.props.sessionChanged}
         >
         </CorespringPlacementOrdering>
       </MuiThemeProvider>

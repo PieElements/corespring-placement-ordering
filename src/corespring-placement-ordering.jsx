@@ -1,11 +1,11 @@
-import React from 'react';
-import _ from 'lodash';
 import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
-import { DragDropContext as ddContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import _ from 'lodash';
+import { DragDropContext as ddContext } from 'react-dnd';
 
 export class CorespringPlacementOrdering extends React.Component {
 
@@ -29,7 +29,7 @@ export class CorespringPlacementOrdering extends React.Component {
   }
 
   onDropChoice(choiceId, index, sourceId) {
-    let choice = this.props.model.choices.find(({id}) => id === choiceId);
+    let choice = this.props.model.choices.find(({ id }) => id === choiceId);
     this.state.order[index] = choiceId;
     for (var i = 0; i < this.state.order.length; i++) {
       if (i !== index && this.state.order[i] === choiceId) {
@@ -40,12 +40,14 @@ export class CorespringPlacementOrdering extends React.Component {
     }
     this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
+    this.props.sessionChanged();
   }
 
   onDragInvalid(choiceId, index) {
     this.state.order[index] = null;
     this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
+    this.props.sessionChanged();
   }
 
   render() {
@@ -95,11 +97,11 @@ export class CorespringPlacementOrdering extends React.Component {
 
         return (
           <DroppableTarget
-              key={idx}
-              index={idx}
-              targetId={val.id}
-              componentId={this.componentId}
-              onDropChoice={this.onDropChoice.bind(this)}>
+            key={idx}
+            index={idx}
+            targetId={val.id}
+            componentId={this.componentId}
+            onDropChoice={this.onDropChoice.bind(this)}>
             {maybeChoice}
           </DroppableTarget>
         );
@@ -160,7 +162,8 @@ export class CorespringPlacementOrdering extends React.Component {
 
 CorespringPlacementOrdering.propTypes = {
   model: React.PropTypes.object,
-  session: React.PropTypes.object
+  session: React.PropTypes.object,
+  sessionChanged: React.PropTypes.func.isRequired
 };
 
 CorespringPlacementOrdering.defaultProps = {
