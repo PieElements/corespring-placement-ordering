@@ -1,9 +1,10 @@
+import { mount, shallow } from 'enzyme';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import sinon from 'sinon';
 
 describe('CorespringPlacementOrdering', () => {
 
@@ -12,7 +13,10 @@ describe('CorespringPlacementOrdering', () => {
   let CorespringPlacementOrdering;
 
   let mkWrapper = (model, session) => {
-    return shallow(<CorespringPlacementOrdering model={model} session={session} />, {});
+    return shallow(<CorespringPlacementOrdering
+      model={model}
+      session={session}
+      sessionChanged={() => { }} />, {});
   };
 
   beforeEach(() => {
