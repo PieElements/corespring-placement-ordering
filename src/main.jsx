@@ -1,6 +1,6 @@
 import { amber300, amber500, amber600, green200, green500 } from 'material-ui/styles/colors';
 
-import CorespringPlacementOrdering from './corespring-placement-ordering.jsx'
+import CorespringPlacementOrdering from './placement-ordering.jsx'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';

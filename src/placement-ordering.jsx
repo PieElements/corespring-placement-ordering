@@ -1,9 +1,9 @@
-import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
+import { CSSTransitionGroup } from 'react-transition-group';
+import CorespringCorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
 import HTML5Backend from 'react-dnd-html5-backend';
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import _ from 'lodash';
 import { DragDropContext as ddContext } from 'react-dnd';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -146,7 +146,7 @@ export class CorespringPlacementOrdering extends React.Component {
         <div className="choices-container">
           {answerTable('place-holder-choices')}
 
-          <ReactCSSTransitionGroup
+          <CSSTransitionGroup
             transitionName="choice-holder-transition"
             transitionEnterTimeout={300}
             transitionLeaveTimeout={300}>
@@ -154,7 +154,7 @@ export class CorespringPlacementOrdering extends React.Component {
             {myAnswer}
             {correctAnswer}
 
-          </ReactCSSTransitionGroup>
+          </CSSTransitionGroup>
         </div>
       </div>
     );

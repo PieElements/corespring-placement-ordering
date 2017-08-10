@@ -1,6 +1,6 @@
 {
   "elements": {
-    "corespring-placement-ordering": "../../"
+    "placement-ordering": "../.."
   },
   "langs": [
     "en-US",
@@ -9,7 +9,7 @@
   "models": [
     {
       "id": "1",
-      "element": "corespring-placement-ordering",
+      "element": "placement-ordering",
       "defaultLang": "en-US",
       "langs": [
         "en-US",
