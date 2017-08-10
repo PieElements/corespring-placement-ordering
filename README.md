@@ -1,4 +1,4 @@
-# corespring-placement-ordering
+# placement-ordering
 
 A [pie](http://github.com/PieLabs/pie) choice component.
 
@@ -9,16 +9,13 @@ A [pie](http://github.com/PieLabs/pie) choice component.
 To use this pie, you need to configure a `pie-question`. This means that you'll need to add it to the `index.html` and `config.json` files.
 
 ```html
-<corespring-placement-ordering pie-id="1"></corespring-placement-ordering>
+<placement-ordering pie-id="1"></placement-ordering>
 ```
 
 ```javascript
 {
   "id" : "1",
-  "pie" : {
-    "name" : "corespring-placement-ordering",
-    "version" : "1.0.0"
-  },
+  "element" : "placement-ordering",
   "prompt" : "1 + 1 equals?",
   // more configuration...
 }
