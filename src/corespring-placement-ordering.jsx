@@ -1,12 +1,12 @@
 import CorespringCorrectAnswerToggle from 'corespring-correct-answer-toggle';
 import DraggableChoice from './DraggableChoice.jsx';
 import DroppableTarget from './DroppableTarget.jsx';
+import HTML5Backend from 'react-dnd-html5-backend';
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import _ from 'lodash';
+import { DragDropContext as ddContext } from 'react-dnd';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
-injectTapEventPlugin();
 
 export class CorespringPlacementOrdering extends React.Component {
 
@@ -41,12 +41,14 @@ export class CorespringPlacementOrdering extends React.Component {
     }
     this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
+    this.props.sessionChanged();
   }
 
   onDragInvalid(choiceId, index) {
     this.state.order[index] = null;
     this.setState({ order: this.state.order });
     this.props.session.value = this.state.order;
+    this.props.sessionChanged();
   }
 
   render() {
@@ -96,11 +98,11 @@ export class CorespringPlacementOrdering extends React.Component {
 
         return (
           <DroppableTarget
-              key={idx}
-              index={idx}
-              targetId={val.id}
-              componentId={this.componentId}
-              onDropChoice={this.onDropChoice.bind(this)}>
+            key={idx}
+            index={idx}
+            targetId={val.id}
+            componentId={this.componentId}
+            onDropChoice={this.onDropChoice.bind(this)}>
             {maybeChoice}
           </DroppableTarget>
         );
@@ -161,7 +163,8 @@ export class CorespringPlacementOrdering extends React.Component {
 
 CorespringPlacementOrdering.propTypes = {
   model: React.PropTypes.object,
-  session: React.PropTypes.object
+  session: React.PropTypes.object,
+  sessionChanged: React.PropTypes.func.isRequired
 };
 
 CorespringPlacementOrdering.defaultProps = {

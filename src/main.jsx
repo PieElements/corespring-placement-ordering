@@ -49,6 +49,7 @@ class Main extends React.Component {
         <CorespringPlacementOrdering
           model={this.props.model}
           session={this.props.session}
+          sessionChanged={this.props.sessionChanged}
         >
         </CorespringPlacementOrdering>
       </MuiThemeProvider>
